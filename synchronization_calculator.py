@@ -10,6 +10,7 @@ import cv2
 import numpy as np
 import sys
 import random
+from mutagen.mp3 import MP3
 
 sys.path.insert(1, './tf-pose-estimation/')
 
@@ -69,7 +70,8 @@ if __name__ == '__main__':
     mixer.music.load(filename)
     mixer.music.play()
 
-    sleep(5) #prevent from killing
+    audio = MP3(filename)
+    sleep(audio.info.length + 1) #prevent from killing
     os.remove(filename) #remove temperory file
 
     logger.debug('initialization %s : %s' % (args.model, get_graph_path(args.model)))
@@ -158,19 +160,13 @@ if __name__ == '__main__':
         similar_pairs = list(set(pairs_vid1[frame]).intersection(pairs_vid2[frame]))
         frame_num_of_matched_pairs_count.append(len(similar_pairs))
         for sp in similar_pairs:
-            print("Body Parts",sp)
             body_part_1 = sp[0]
             body_part_2 = sp[1]
             v1_point1 = centers_vid1[frame][body_part_1]
             v1_point2 = centers_vid1[frame][body_part_2]
-            print(v1_point1)
-            print(v1_point2)
             slope1 = (v1_point2[1] - v1_point1[1]) / ((v1_point2[0] - v1_point1[0]) if (v1_point2[0] - v1_point1[0]) != 0 else .00000001)
-
             v2_point1 = centers_vid2[frame][body_part_1]
             v2_point2 = centers_vid2[frame][body_part_2]
-            print(v2_point1)
-            print(v2_point2)
             slope2 = (v2_point2[1] - v2_point1[1]) / ((v2_point2[0] - v2_point1[0]) if (v2_point2[0] - v2_point1[0]) != 0 else .00000001)
 
             deviation = abs(slope1 - slope2) / (slope1 if slope1 != 0 else .00000001)
@@ -192,7 +188,8 @@ if __name__ == '__main__':
     mixer.music.load(filename)
     mixer.music.play()
 
-    sleep(5) #prevent from killing
+    audio = MP3(filename)
+    sleep(audio.info.length + 1) #prevent from killing
     os.remove(filename) #remove temperory file #remove temperory file
 
     print(final_score_text)
@@ -205,7 +202,8 @@ if __name__ == '__main__':
     mixer.music.load(filename)
     mixer.music.play()
 
-    sleep(8) #prevent from killing
+    audio = MP3(filename)
+    sleep(audio.info.length + 1) #prevent from killing
     os.remove(filename) #remove temperory file
     
     
