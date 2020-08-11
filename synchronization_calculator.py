@@ -2,11 +2,31 @@ import argparse
 import logging
 import time
 import math
-
+from gtts import gTTS
+from time import sleep
+import os
+from pygame import mixer
 import cv2
 import numpy as np
 import sys
+import random
+
 sys.path.insert(1, './tf-pose-estimation/')
+
+great_responses = ["Holy shit, you are Roger Federer", "Amazing shot"]
+
+good_responses = ["A little rough around the edges but still great", "Pretty consistent well done"]
+
+bad_responses = ["Are you even playing Tennis?", "Maybe try golf or something"]
+
+def generateResponse(score=float):
+    if score >= 75:
+        return great_responses[random.randint(0, len(great_responses) - 1)]
+    elif score >= 40:
+        return good_responses[random.randint(0, len(good_responses) - 1)]
+    else:
+        return bad_responses[random.randint(0, len(bad_responses) - 1)]
+
 
 
 from tf_pose.estimator import TfPoseEstimator
@@ -40,6 +60,17 @@ if __name__ == '__main__':
                         help='for debug purpose, if enabled, speed for inference is dropped.')
     parser.add_argument('--showBG', type=bool, default=True, help='False to show skeleton only.')
     args = parser.parse_args()
+
+    tts = gTTS(text='Beginning Pose Analysis', lang='en')
+    filename = '/tmp/temp.mp3'
+    tts.save(filename)
+
+    mixer.init()
+    mixer.music.load(filename)
+    mixer.music.play()
+
+    sleep(5) #prevent from killing
+    os.remove(filename) #remove temperory file
 
     logger.debug('initialization %s : %s' % (args.model, get_graph_path(args.model)))
     
@@ -146,10 +177,35 @@ if __name__ == '__main__':
             if deviation <= .20:
                 total_similarity += 1
         frame_synched_pairs_count.append(total_similarity)
+
     
-    print("Synchronization Score:", np.mean([frame_synched_pairs_count[i]/frame_num_of_matched_pairs_count[i] for i in range(len(frame_synched_pairs_count))]) * 100)
 
 
+    print("Synchronization Score: ", end = "")
+    final_score_text = str(round(np.mean([frame_synched_pairs_count[i]/frame_num_of_matched_pairs_count[i] for i in range(len(frame_synched_pairs_count))]) * 100, 2)) + "%"
+    
+    tts = gTTS(text='Pose Analysis Complete. Synchronization Score is', lang='en')
+    filename = '/tmp/temp.mp3'
+    tts.save(filename)
 
+    mixer.init()
+    mixer.music.load(filename)
+    mixer.music.play()
+
+    sleep(5) #prevent from killing
+    os.remove(filename) #remove temperory file #remove temperory file
+
+    print(final_score_text)
+    announce = final_score_text + ". " + generateResponse(round(np.mean([frame_synched_pairs_count[i]/frame_num_of_matched_pairs_count[i] for i in range(len(frame_synched_pairs_count))]) * 100, 2))
+    tts = gTTS(text=announce, lang='en')
+    filename = '/tmp/temp.mp3'
+    tts.save(filename)
+
+    mixer.init()
+    mixer.music.load(filename)
+    mixer.music.play()
+
+    sleep(8) #prevent from killing
+    os.remove(filename) #remove temperory file
     
     
