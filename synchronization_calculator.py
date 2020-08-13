@@ -48,6 +48,7 @@ pairs_vid1 = {}
 centers_vid2 = {}
 pairs_vid2 = {}
 
+#add coments
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='tf-pose-estimation Video')
     parser.add_argument('--video1', type=str, default='')
