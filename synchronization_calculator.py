@@ -101,7 +101,7 @@ if __name__ == '__main__':
             break
         if not args.showBG:
             image = np.zeros(image.shape)
-        
+        #include case of where it detects no humans
         logger.debug('postprocess+')
         image, c, pa = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
         centers_vid1[frame] = c
