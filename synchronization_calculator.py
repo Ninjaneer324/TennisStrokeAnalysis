@@ -109,6 +109,8 @@ if __name__ == '__main__':
         pairs_vid1[frame] = pa
         logger.debug('show+')
         cv2.putText(image, "FPS: %f" % (1.0 / (time.time() - fps_time)), (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        cv2.namedWindow('tf-pose-estimation result')
+        cv2.moveWindow('tf-pose-estimation result', 1600,0) #keep video in one location
         cv2.imshow('tf-pose-estimation result', image)
         fps_time = time.time()
         if cv2.waitKey(1) == 27: #press esc to exit
@@ -142,6 +144,8 @@ if __name__ == '__main__':
         pairs_vid2[frame] = pa
         logger.debug('show+')
         cv2.putText(image, "FPS: %f" % (1.0 / (time.time() - fps_time)), (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        cv2.namedWindow('tf-pose-estimation result')
+        cv2.moveWindow('tf-pose-estimation result', 1600,0) #keep video in one location
         cv2.imshow('tf-pose-estimation result', image)
         fps_time = time.time()
         if cv2.waitKey(1) == 27: #press esc to exit
