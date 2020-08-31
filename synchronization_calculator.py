@@ -12,6 +12,8 @@ import sys
 import random
 from mutagen.mp3 import MP3
 
+#Credit for video analysis code to the creators of tf-pose-estimation
+
 sys.path.insert(1, './tf-pose-estimation/')
 
 great_responses = ["Holy shit, you are Roger Federer", "Amazing shot"]
