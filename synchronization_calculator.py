@@ -104,6 +104,7 @@ if __name__ == '__main__':
             image = np.zeros(image.shape)
         #include case of where it detects no humans
         logger.debug('postprocess+')
+        #draw humans modified to draw the tallest human only
         image, c, pa = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
         centers_vid1[frame] = c
         pairs_vid1[frame] = pa
@@ -139,6 +140,7 @@ if __name__ == '__main__':
             image = np.zeros(image.shape)
         
         logger.debug('postprocess+')
+        #draw humans modified to draw the tallest human only
         image, c, pa = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
         centers_vid2[frame] = c
         pairs_vid2[frame] = pa
